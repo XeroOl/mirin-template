@@ -65,8 +65,8 @@ Inside, there are a couple of things to change:
 * `#ARTIST:` should be changed to the artist
 * `#OFFSET:` needs to be set to the offset of your song
 * `#BPMS:` needs to be set to `0.000=`, and then the BPM of your song. (The provided Song.ogg is 129.948bpm)
-* On line 32 of `Song.sm`, there's a line that just has a `:` symbol. Add your username before this colon
-* On line 34 of `Song.sm`, there's a line that has `1:`. Replace that with the difficulty rating of your file.
+* On line 31 of `Song.sm`, there's a line that just has a `:` symbol. Add your username before this colon
+* On line 33 of `Song.sm`, there's a line that has `1:`. Replace that with the difficulty rating of your file.
 
 NOTE: Only edit the `.sm` while the game is closed. To make the game reload changes to the `.sm` file, you need to delete the `Cache` folder before re-opening the game.
 After you've put all of the metadata into the `.sm`, you'll need to replace the default provided chart by writing your own chart. I'm not going to cover how to do this here, but [here is a good resource](https://docs.google.com/document/d/1bb_C6kpYbDUG-AlCmOJAIJQPzdD5x1WRZlXJBwyIdqs/edit?usp=sharing).
