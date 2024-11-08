@@ -62,5 +62,6 @@ It is is designed to make easing as simple as possible, while remaining incredib
 
 ## External Resources
 * [The Lua Manual](https://www.lua.org/manual/5.1/)
+* [CraftedCart's NotITG Lua docs (unofficial)](https://craftedcart.gitlab.io/notitg_docs/)
 
 Documentation by XeroOl, Chegg, Kirby5464, Spax
