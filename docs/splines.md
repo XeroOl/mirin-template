@@ -43,7 +43,7 @@ func{4, function()
 	P2:ResetXSplines(2)
 end}
 
---resets X splines on the 'up' column
+--resets X splines on all columns
 func{4, function()
 	for col = 0, 3 do 
 		P1:ResetXSplines(col)
