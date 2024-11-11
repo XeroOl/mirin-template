@@ -43,7 +43,7 @@ func{4, function()
 	P2:ResetXSplines(2)
 end}
 
---resets X splines on the 'up' column
+--resets X splines on all columns
 func{4, function()
 	for col = 0, 3 do 
 		P1:ResetXSplines(col)
@@ -78,7 +78,7 @@ To change the join type, use `spline..axis..type`, where `axis` is one of the af
 * Certain things will cause splines to truncate (the rest will be ignored after a point).
 
 * In XYZ mod percentage property, 100% is equal to ARROW_SIZE, which is 64 pixels by default in ITG.
-    In RotationX, Y and Z, 628.3% is equal to 360 degrees (2*math.pi*100)
+    In RotationX, Y and Z, 628.3% is equal to 360 degrees (2\*math.pi\*100)
     Size uses the same formulae as Mini and Tiny (200% = 0 zoom)
     Stealth is just stealth
     Trying to get precise values using skew is like trying to count powder.
