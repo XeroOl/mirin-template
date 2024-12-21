@@ -6,7 +6,7 @@ FILENAME=mirin-template-$(VERSION)
 
 $(FILENAME).zip: lint test
 	mkdir -p build
-	cp -r Song.ogg Song.sm lua template build
+	cp -r Song.ogg Song.sm lua template plugins build
 	sed 's/$$VERSION/'"$(VERSION)"'/' build/template/main.xml -i
 	(cd build && zip ../"$(FILENAME)".zip . -r)
 	rm build -rf
