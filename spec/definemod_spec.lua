@@ -17,5 +17,12 @@ describe("definemod", function()
 		update(1)
 	end)
 
+	it("shouldn't break if the user eases a dependent value first", function()
+		xero.defineMod {"a", 100, "b"}
+		xero.defineMod {"b", "c", function(b, c) return b + c end, "invert"}
+		xero.set {1, 100, "c"}
+		update(2)
+	end)
+
 	-- TODO
 end)

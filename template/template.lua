@@ -1192,10 +1192,6 @@ local function ready_command(self)
 	-- Set this variable so that ease{}s get denied past this point
 	is_beyond_load_command = true
 
-	-- make sure nodes are up to date
-	run_nodes()
-	run_mods()
-
 	self:tween(9e9, function()
 		self:playcommand('Update')
 		return 0
