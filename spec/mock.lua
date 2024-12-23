@@ -16,6 +16,10 @@ function GAMESTATE:ApplyModifiers(str, pn)
 	end
 end
 
+function GAMESTATE:GetFileStructure(path)
+	return not not io.open(path)
+end
+
 function mock.get_mod(str, pn)
 	return mods[pn or 1][str]
 end
@@ -49,6 +53,17 @@ end
 
 function Song:GetElapsedTimeFromBeat(b)
 	return b / factor + offset
+end
+
+function Song:SetNumSpellCards(_)
+end
+function Song:SetSpellCardTiming(_, _, _)
+end
+function Song:SetSpellCardName(_, _)
+end
+function Song:SetSpellCardDifficulty(_, _)
+end
+function Song:SetSpellCardColor(_, _,_,_,_)
 end
 
 function DISPLAY:GetDisplayWidth()
