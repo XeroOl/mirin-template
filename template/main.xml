@@ -10,9 +10,11 @@
 		}
 
 		-- Load all of the core .lua files
-		-- The order DOES matter here:
-		-- std.lua needs to be loaded first
-		-- template.lua needs to be last
+		-- The order matters a bit because these files set a bunch of
+		-- 'globals' in the xero table
+		local package = loadfile(xero.dir..'template/package.lua')()
+		xero.package = package
+		xero.require = package.require
 		loadfile(xero.dir..'template/std.lua')()
 		loadfile(xero.dir..'template/sort.lua')()
 		loadfile(xero.dir..'template/ease.lua')()
