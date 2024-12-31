@@ -1,6 +1,5 @@
 ---@diagnostic disable: undefined-global
 local helper = require("spec.helper")
-local update = helper.update
 
 describe("setdefault", function()
 	before_each(function()

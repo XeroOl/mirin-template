@@ -30,33 +30,31 @@ local initcommand = "return " .. body:match('"%%(.-)"')
 initcommand = assert(loadstring(initcommand, "template/main.xml"))()
 
 function helper.init()
-	local h = helper
-
-	h.foreground = mock.newactorframe()
+	helper.foreground = mock.newactorframe()
 	loadfile = cachedloadfile
-	initcommand(h.foreground)
+	initcommand(helper.foreground)
 	xero.loadfile = dummyloadfile
 	xero.package.preload.mods = function() end
 
-	h.template = mock.newactor()
-	mock.add_child(h.foreground, h.template)
-	h.template:addcommand("Init", xero.init_command)
-	h.template:playcommand("Init")
+	helper.template = mock.newactor()
+	mock.add_child(helper.foreground, helper.template)
+	helper.template:addcommand("Init", xero.init_command)
+	helper.template:playcommand("Init")
 
-	h.layout = mock.newactorframe()
-	mock.add_child(h.foreground, h.layout)
+	helper.layout = mock.newactorframe()
+	mock.add_child(helper.foreground, helper.layout)
 	local pp1 = mock.newactor("PP[1]")
 	local pp2 = mock.newactor("PP[2]")
 	local pc1 = mock.newactor("PC[1]")
 	local pc2 = mock.newactor("PC[2]")
 	local pj1 = mock.newactor("PJ[1]")
 	local pj2 = mock.newactor("PJ[2]")
-	mock.add_child(h.layout, pp1)
-	mock.add_child(h.layout, pp2)
-	mock.add_child(h.layout, pc1)
-	mock.add_child(h.layout, pc2)
-	mock.add_child(h.layout, pj1)
-	mock.add_child(h.layout, pj2)
+	mock.add_child(helper.layout, pp1)
+	mock.add_child(helper.layout, pp2)
+	mock.add_child(helper.layout, pc1)
+	mock.add_child(helper.layout, pc2)
+	mock.add_child(helper.layout, pj1)
+	mock.add_child(helper.layout, pj2)
 end
 
 function helper.on()

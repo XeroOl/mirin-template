@@ -1,6 +1,5 @@
 ---@diagnostic disable: undefined-global
 local helper = require("spec.helper")
-local update = helper.update
 
 local function check_doesnt_crash(fn)
 	for i = 0, 1, 0.2 do

@@ -24,5 +24,4 @@ describe("definemod", function()
 		update(2)
 	end)
 
-	-- TODO
 end)
