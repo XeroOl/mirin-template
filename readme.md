@@ -9,6 +9,10 @@
 * **Theme independent**: Mirin Template creates a separate environment for mod code that is kept separate from themes.
 * **Powerful abstractions**: Includes a powerful system that allows users to create custom modifiers.
 
+### The decline of `flip` and the rise of `{}`
+
+`flip` is deprecated in favor of the new table syntax (`{}`). Long live `{}`!
+
 ```lua
 -- turn on invert
 ease {0, 1, outExpo, 100, 'invert'}
