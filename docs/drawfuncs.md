@@ -202,12 +202,10 @@ proxywall:SetDrawFunction(function(self)
     -- The effect isn't active at 0 spread, so to save resources, don't draw the wall.
     if proxywall_spread ~= 0 then
 
-        -- Create clones, 6 in this case
-        -- Since we draw left to right, we want an extra one on the left
-        for i = -3, 2 do
-
-            -- Do the same thing as the modulo example but with the players
-            -- Also replace some variables with our definemod'd ones
+        -- Create clones, enough to span the left and right side of the screen
+        for i = -2, 2 do
+            -- Do the same thing as the modulo example
+            -- Change some variables for our definemod ones
             PP[1]:x((modulo(proxywall_scroll, 1) + i) * proxywall_spread)
 
             -- Then draw the player
