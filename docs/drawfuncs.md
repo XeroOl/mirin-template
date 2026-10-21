@@ -56,7 +56,7 @@ It is also important to keep in mind that the `my_image1:xy(pos, pos)` and `my_i
 
 One more thing to consider; outside of your draw function, if you attempt to modify the Actors in ways that the draw function already do, nothing will happen. For example, if you added `my_image:xy(100, 500)` in a `func` or after the draw function in the previous example, it will do nothing since the draw function sets the `xy` every frame.
 # Animations with Drawfuncs
-Using `GAMESTATE:SetSongBeat()`, you can provide a variable to your draw functions that changes over time, allowing you to create animations. For example:
+Using `GAMESTATE:GetSongBeat()`, you can provide a variable to your draw functions that changes over time, allowing you to create animations. For example:
 ```lua
 my_image:y(scy) -- Center actor along y-axis
 my_actorframe:SetDrawFunction(function(self)
@@ -108,7 +108,7 @@ local function modulo(a, b)
 end
 ```
 
-The Modulo function is essentially produces sawtooth waves. As `a` grows, everytime it touches `b` it goes back to zero. This is very useful for producing seemingly infinite effects in draw functions. Here's an example:
+The Modulo function is a mathematical function that essentially produces sawtooth waves. As `a` grows, everytime it touches `b` it goes back to zero. This is very useful for producing seemingly infinite effects in draw functions. Here's an example:
 ```lua
 my_image:y(scy) -- Center actor along y-axis
 my_actorframe:SetDrawFunction(function(self)
@@ -151,7 +151,7 @@ my_actorframe:SetDrawFunction(function(self)
 	local b = GAMESTATE:GetSongBeat() -- Store song beat in a variable
 
 	-- Replace the loop amount with our variable (minus 1 since loop condition is inclusive)
-	for i = 0, circular_amnt do
+	for i = 0, circular_amnt - 1 do
 	
 		-- As mentioned earlier, since phase shift is i * math.pi*2 / <amount of clones>,
 		-- we simply replace the math.pi*2 / 4 with math.pi*2 / <our amount variable>
