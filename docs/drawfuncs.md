@@ -193,7 +193,7 @@ A very popular effect in NotITG is what's known as the "proxywall". It is an eff
 -- Start with our definemods, for this example I'll add modifiers for the spread and scroll
 local proxywall_spread, proxywall_scroll
 definemod {'proxywallspread', 'proxywallscroll', function(spread, scroll)
-    proxywall_spread = spread*2.56 -- 256 equals one playfield, so lets make it in terms of 100
+    proxywall_spread = spread*2.56 -- 256 is the width of one playfield, so lets make it in terms of 100
     proxywall_scroll = scroll/100 -- Divide by 100 for mod amount consistency
 end}
 -- These are fine at 0, so I won't bother using setdefault
@@ -208,9 +208,7 @@ proxywall:SetDrawFunction(function(self)
 
             -- Do the same thing as the modulo example but with the players
             -- Also replace some variables with our definemod'd ones
-            PP[1]:x(
-                (modulo(proxywall_scroll, 1) + i) * proxywall_spread
-            )
+            PP[1]:x((modulo(proxywall_scroll, 1) + i) * proxywall_spread)
 
             -- Then draw the player
             PP[1]:Draw()
