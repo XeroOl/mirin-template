@@ -20,8 +20,9 @@ end)
 ```
 Of course, if you do not use `Draw()` on Actors inside your ActorFrame, they will not appear on the screen.
 
-Inside the draw function, you can use loops, logic, and variables to manipulate how the ActorFrame draws its actors onto the screen. For example:
+Inside the draw function, you can use loops, logic, and variables to manipulate how the ActorFrame draws its actors onto the screen. For example, this code will draw a row of clones of the actor:
 ```lua
+my_image:y(scy) -- Center actor along y-axis
 my_actorframe:SetDrawFunction(function(self)
 	for i = -5, 5 do -- Use a loop to draw many actors
 		my_image:x(scx + i*50) -- Add an x-offset based off the loop index, centering with scx 
@@ -35,7 +36,7 @@ For multiple actors, your draw function will start to look more something like t
 ```lua
 my_actorframe:SetDrawFunction(function(self)
 	for i = 0, 9 do -- Loop ten times 
-		local pos = i*10 -- We use this value a lot, so it's better to put it in a variable.
+		local pos = i*40 -- We use this value a lot, so it's better to put it in a variable.
 		
 		if i%2 == 0 then -- "i%2 == 0" asks "if the loop index is an even number"
 			my_image1:xy(pos, pos)
@@ -49,9 +50,7 @@ my_actorframe:SetDrawFunction(function(self)
 	end
 end)
 ```
-For draw functions, if your actors are not using `zbuffer`, the order of which actors are drawn on the screen are determined by what `Actor:Draw()` is executed first. In the case of the above example, every preceding Actor will draw on top of the last, since `my_image1:Draw()` is executed, then `my_image2:Draw()` is executed, and so on...
-
-It's important to keep this in mind as you can end up with Actors placed on top of each other in ways you do not wish for.
+For draw functions, if your actors are not using `zbuffer`, the order of which actors are drawn on the screen are determined by what `Actor:Draw()` is executed first. In the case of the above example, every preceding Actor will draw on top of the last, since `my_image1:Draw()` is executed, then `my_image2:Draw()` is executed, and so on... It's important to keep this in mind as you can end up with Actors placed on top of each other in ways you do not wish for.
 
 It is also important to keep in mind that the `my_image1:xy(pos, pos)` and `my_image2:xy(pos, pos)` do not reset. If you executed another `Draw()` to the Actors after the for-loop, the Actor will draw at the end of the diagonal. You'll need to reset the changes you made to your Actor.
 
@@ -59,7 +58,7 @@ One more thing to consider; outside of your draw function, if you attempt to mod
 # Animations with Drawfuncs
 Using `GAMESTATE:SetSongBeat()`, you can provide a variable to your draw functions that changes over time, allowing you to create animations. For example:
 ```lua
-my_image:y(scy) -- Position the Actor along the center of the y-axis
+my_image:y(scy) -- Center actor along y-axis
 my_actorframe:SetDrawFunction(function(self)
 	local b = GAMESTATE:GetSongBeat() -- Store song beat in a variable, this is a decimal, not an integer!
 
@@ -111,7 +110,7 @@ end
 
 The Modulo function is essentially produces sawtooth waves. As `a` grows, everytime it touches `b` it goes back to zero. This is very useful for producing seemingly infinite effects in draw functions. Here's an example:
 ```lua
-my_image:y(scy) -- Center actor on y-axis
+my_image:y(scy) -- Center actor along y-axis
 my_actorframe:SetDrawFunction(function(self)
 	local b = GAMESTATE:GetSongBeat() / 4 -- Divide by 4 here to slow the effect down
 	
@@ -122,13 +121,11 @@ my_actorframe:SetDrawFunction(function(self)
 			+ modulo(b + i/10, 1) -- Every beat, move to the right linearlly then warp back to the start.
 			-- Also add equal phase shift for clones to b!
 			* (sw + 200) -- Then, multiply by the end point. This is at the other end of the screen.
-		) 
+		)
+        my_image:Draw() -- Finally, tell the actor to draw
 	end
-
-	my_image:Draw() -- Finally, tell the actor to draw.
 end)
 ```
-
 
 # Definemod and Drawfunc
 You probably want to have more control over your draw function, rather than it doing the same thing forever. In the case of the circular motion example, perhaps what if you wanted to change the amplitude, or the amount of clones?
@@ -181,3 +178,56 @@ ease {4, 4, outCubic, 200, 'circularamp'}
 -- Set the amount of clones in the circle to 8 at beat 16
 set {16, 8, 'circularamnt'}
 ``` 
+
+# Proxywall Example
+A very popular effect in NotITG is what's known as the "proxywall". It is an effect where multiple playfields fill the screen horizontally and often move along the screen seemingly infinitely. Using what we know, we can create a simple primative proxywall:
+
+```xml
+<!-- Encapsulate PP[1] in an actorframe -->
+<Layer Type = "ActorFrame" Name = "proxywall"><children>
+    <Layer Type = "ActorProxy" Name = "PP[1]" />
+</children></Layer>
+```
+
+```lua
+-- Start with our definemods, for this example I'll add modifiers for the spread and scroll
+local proxywall_spread, proxywall_scroll
+definemod {'proxywallspread', 'proxywallscroll', function(spread, scroll)
+    proxywall_spread = spread*2.56 -- 256 equals one playfield, so lets make it in terms of 100
+    proxywall_scroll = scroll/100 -- Divide by 100 for mod amount consistency
+end}
+-- These are fine at 0, so I won't bother using setdefault
+
+proxywall:SetDrawFunction(function(self)
+    -- The effect isn't active at 0 spread, so to save resources, don't draw the wall.
+    if proxywall_spread ~= 0 then
+
+        -- Create clones, 6 in this case
+        -- Since we draw left to right, we want an extra one on the left
+        for i = -3, 2 do
+
+            -- Do the same thing as the modulo example but with the players
+            -- Also replace some variables with our definemod'd ones
+            PP[1]:x(
+                (modulo(proxywall_scroll, 1) + i) * proxywall_spread
+            )
+
+            -- Then draw the player
+            PP[1]:Draw()
+        end
+
+    else -- Even if the wall isn't being drawn, we still need to draw our player.
+        PP[1]:Draw()
+    end
+end)
+
+-- Here we didn't use P2, so let's hide it.
+PP[2]:hidden(1)
+
+-- Let's also center our player.
+P1:x(scx)
+
+-- From here, you can mess around with the spread and scroll to your liking
+ease {8, 8, outCubic, 100, 'proxywallspread'}
+ease {16, 8, inOutCubic, 1000, 'proxywallscroll'}
+```
