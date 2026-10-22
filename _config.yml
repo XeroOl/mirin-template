@@ -4,3 +4,5 @@ kramdown:
     coderay_tab_width: 4
 plugins:
   - jekyll-redirect-from
+github:
+  repository_url: https://github.com/XeroOl/notitg-mirin/tree/gh-pages
